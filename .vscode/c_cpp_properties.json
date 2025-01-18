@@ -16,7 +16,8 @@
                     "${workspaceFolder}"
                 ],
                 "limitSymbolsToIncludedHeaders": true
-            }
+            },
+            "cppStandard": "c++23"
         }
     ],
     "version": 4

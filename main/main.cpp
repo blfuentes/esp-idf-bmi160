@@ -13,13 +13,8 @@
 
 #define PIN_NUM_MISO GPIO_NUM_19
 #define PIN_NUM_MOSI GPIO_NUM_23
-#define PIN_NUM_CLK  GPIO_NUM_14
-#define PIN_NUM_CS   GPIO_NUM_5
-#define PIN_NUM_INTR GPIO_NUM_2
-
-// #define PIN_NUM_DC   GPIO_NUM_2
-// #define PIN_NUM_RST  GPIO_NUM_4
-// #define PIN_NUM_BCKL 5
+#define PIN_NUM_CLK  GPIO_NUM_18
+#define PIN_NUM_CS   GPIO_NUM_21
 
 static const char *TAG = "BMI160_SPI";
 spi_device_handle_t spi;  // Global handle for the SPI device
@@ -29,20 +24,6 @@ int8_t bmi160_spi_read(uint8_t dev_id, uint8_t reg_addr, uint8_t *data, uint16_t
 int8_t bmi160_spi_write(uint8_t dev_id, uint8_t reg_addr, uint8_t *data, uint16_t len);
 void delay_ms(uint32_t ms);
 
-// // SPI read function
-// int8_t bmi160_spi_read(uint8_t dev_id, uint8_t reg_addr, uint8_t *data, uint16_t len) {
-//     uint8_t tx_buffer[len+1];
-//     tx_buffer[0] = (reg_addr | 0x80); // Set MSB for read operation
-//     spi_transaction_t t = {
-//         .length = static_cast<size_t>((len + 1) * 8), // Length in bits
-//         .tx_buffer = tx_buffer,
-//         .rx_buffer = data
-//     };
-//     spi_device_transmit(spi, &t);
-//     // Shift data array by one to remove the first byte (register address)
-//     memmove(data, data + 1, len);
-//     return BMI160_OK;
-// }
 int8_t bmi160_spi_read(uint8_t dev_id, uint8_t reg_addr, uint8_t *data, uint16_t len) {
     uint8_t tx_buffer[len + 1];
     uint8_t rx_buffer[len + 1];
@@ -63,8 +44,6 @@ int8_t bmi160_spi_read(uint8_t dev_id, uint8_t reg_addr, uint8_t *data, uint16_t
         return BMI160_E_COM_FAIL;
     }
 }
-
-
 
 // SPI write function
 int8_t bmi160_spi_write(uint8_t dev_id, uint8_t reg_addr, uint8_t *data, uint16_t len) {
@@ -124,7 +103,6 @@ void app_main(void) {
     gpio_reset_pin(PIN_NUM_MOSI); // MOSI
     gpio_reset_pin(PIN_NUM_CLK); // SCLK
     gpio_reset_pin(PIN_NUM_CS);  // CS
-    // gpio_reset_pin(PIN_NUM_INTR);
 
     // Initialize SPI bus
     spi_bus_config_t buscfg;
@@ -135,7 +113,7 @@ void app_main(void) {
     buscfg.sclk_io_num = PIN_NUM_CLK;
     buscfg.quadwp_io_num = -1;
     buscfg.quadhd_io_num = -1;
-    buscfg.max_transfer_sz = 4096;
+    buscfg.max_transfer_sz = 4092;
     ret = spi_bus_initialize(HSPI_HOST, &buscfg, 1);
     ESP_ERROR_CHECK(ret);
 

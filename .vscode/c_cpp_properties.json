@@ -343,7 +343,7 @@
             ],
             "cStandard": "gnu17",
             "cppStandard": "gnu++23",
-            "compilerPath": "C:/Users/Insan/.platformio/packages/toolchain-xtensa-esp-elf/bin/xtensa-esp32-elf-gcc.exe",
+            "compilerPath": "C:/Users/Insan/.platformio/packages/toolchain-xtensa-esp-elf@13.2.0+20240530/bin/xtensa-esp32-elf-gcc.exe",
             "compilerArgs": [
                 "-mlongcalls",
                 ""

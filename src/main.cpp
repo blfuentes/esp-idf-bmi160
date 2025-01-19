@@ -17,6 +17,7 @@
 #define PIN_NUM_CS   GPIO_NUM_21
 
 static const char *TAG = "BMI160_SPI";
+static const char *DATATAG = "BMI160_DATA";
 spi_device_handle_t spi;  // Global handle for the SPI device
 
 // Function prototypes for SPI read/write
@@ -64,9 +65,6 @@ void delay_ms(uint32_t ms) {
     vTaskDelay(ms / portTICK_PERIOD_MS);
 }
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wnarrowing"
-
 struct transformed_data_t {
     int16_t x;
     int16_t y;
@@ -74,6 +72,7 @@ struct transformed_data_t {
 };
 
 transformed_data_t transform_accel_data(bmi160_sensor_data rawdata) {
+    ESP_LOGI(DATATAG, "Accel data. X: %d - Y: %d - Z: %d", rawdata.x, rawdata.y, rawdata.z);
     transformed_data_t data;
     data.x = rawdata.x / (32768 / 16);
     data.y = rawdata.y / (32768 / 16);
@@ -83,6 +82,8 @@ transformed_data_t transform_accel_data(bmi160_sensor_data rawdata) {
 }
 
 transformed_data_t transform_gyro_data(bmi160_sensor_data rawdata) {
+    // received gyro data:
+    ESP_LOGI(DATATAG, "Gyro data. X: %d - Y: %d - Z: %d", rawdata.x, rawdata.y, rawdata.z);
     transformed_data_t data;
     data.x = rawdata.x / (32768 / 2000);
     data.y = rawdata.y / (32768 / 2000);
@@ -90,8 +91,6 @@ transformed_data_t transform_gyro_data(bmi160_sensor_data rawdata) {
 
     return data;
 }
-#pragma GCC diagnostic pop
-
 
 extern "C" void app_main();
 

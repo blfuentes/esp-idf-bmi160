@@ -15,3 +15,7 @@ The ultra-tiny, low-power, low-noise, 16-bit inertial measurement unit BMI160 is
 
 ## Schema
 ![wiring diagram](/schema/wiring-diagram.png)
+
+## Pulseview
+![device config](/doc/pulseview-device-config.png)
+![pulseview config](/doc/pulseview-config.png)
